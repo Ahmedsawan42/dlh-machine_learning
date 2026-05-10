@@ -22,3 +22,6 @@
 
 10. Number of shows by genre: a script that lists all genres and displays the number of shows linked to each.
 
+11. Rotten tomatoes: a script that lists all shows by their rating.
+
+12. Best genre: a script that lists all genres  by their rating.
