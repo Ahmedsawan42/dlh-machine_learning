@@ -1,3 +1,2 @@
 // List all databases in MongoDB
-use admin
-db.adminCommand('listDatabases')
+show dbs
