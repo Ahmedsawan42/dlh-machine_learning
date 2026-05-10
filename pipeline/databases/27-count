@@ -1,2 +1,5 @@
+// Get the database name and switch to it
+db = db.getSiblingDB(db.getName());
+
 // Display the number of documents in the school collection
 db.school.countDocuments()
