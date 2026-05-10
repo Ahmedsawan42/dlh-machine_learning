@@ -11,14 +11,13 @@ def log_stats():
     """
     Display statistics about Nginx logs from MongoDB
     """
-    # Connect to MongoDB
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client.logs
-    collection = db.nginx
+    # Connect to MongoDB - use the accepted format
+    client = MongoClient("mongodb://127.0.0.1:27017")
+    collection = client.logs.nginx
 
     # Get total number of logs
     total_logs = collection.count_documents({})
-    print(f"{total_logs} logs")
+    print("{} logs".format(total_logs))
 
     # Methods to count
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
@@ -29,17 +28,17 @@ def log_stats():
     # Count and print each method
     for method in methods:
         count = collection.count_documents({"method": method})
-        print(f"\tmethod {method}: {count}")
+        print("\tmethod {}: {}".format(method, count))
 
     # Count documents with method=GET and path=/status
     status_count = collection.count_documents({
         "method": "GET",
         "path": "/status"
     })
-    print(f"{status_count} status check")
+    print("{} status check".format(status_count))
 
     # Get top 10 most present IPs
-    print("\nIPs:")
+    print("IPs:")
 
     pipeline = [
         {
@@ -59,7 +58,7 @@ def log_stats():
     top_ips = list(collection.aggregate(pipeline))
 
     for ip_data in top_ips:
-        print(f"\t{ip_data['_id']}: {ip_data['count']}")
+        print("\t{}: {}".format(ip_data['_id'], ip_data['count']))
 
     # Close connection
     client.close()
