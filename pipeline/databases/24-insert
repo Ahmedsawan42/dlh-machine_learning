@@ -2,4 +2,4 @@
 var dbName = db.getName();
 db = db.getSiblingDB(dbName);
 
-db.school.insertOne({ name: "Holberton school" })
+db.school.insert({ name: "Holberton school" })
