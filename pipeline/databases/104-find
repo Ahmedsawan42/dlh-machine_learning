@@ -1,0 +1,2 @@
+// Case-insensitive search for names starting with "Holberton"
+db.school.find({ name: { $regex: /^Holberton/i } })
