@@ -14,8 +14,14 @@
 
 6. Howdy Partner: a function that concatenates two arrays.
 
-7. Gettin’ Cozy: a function that concatenates two matrices along a specific axis.
+7. Gettin’ Cozy: a function concatenates two matrices along a specific axis.
 
 8. Ridin’ Bareback: a function that performs matrix multiplication.
 
-9. Let The Butcher Slice It: a script to slice a matrix using numpy
+9. Let The Butcher Slice It: a script to slice a matrix using numpy.
+
+10. I’ll Use My Scale: a function that calculates the shape of numpy.ndarray.
+
+11. The Western Exchange: a function get The transpose of a matrix by NumPy
+
+12. Bracing The Elements: a function that performs element-wise mathmatics.
