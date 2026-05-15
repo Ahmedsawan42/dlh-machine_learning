@@ -25,3 +25,7 @@
 11. The Western Exchange: a function get The transpose of a matrix by NumPy
 
 12. Bracing The Elements: a function that performs element-wise mathmatics.
+
+13. Cat's Got Your Tongue: a function that concatenates two matrices.
+
+14. Saddle Up: a function that performs matrix multiplication.
