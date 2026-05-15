@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""function that calculates the shape of numpy.ndarray"""
 
 
 def np_shape(matrix):

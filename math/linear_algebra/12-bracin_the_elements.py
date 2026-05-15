@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""function that performs element-wise mathmatics"""
 
 
 def np_elementwise(mat1, mat2):

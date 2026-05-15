@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""function get The transpose of a matrix by NumPy"""
 
 
 def np_transpose(matrix):
