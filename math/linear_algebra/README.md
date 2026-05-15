@@ -17,3 +17,5 @@
 7. Gettin’ Cozy: a function that concatenates two matrices along a specific axis.
 
 8. Ridin’ Bareback: a function that performs matrix multiplication.
+
+9. Let The Butcher Slice It: a script to slice a matrix using numpy
