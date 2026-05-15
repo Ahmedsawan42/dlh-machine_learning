@@ -9,3 +9,5 @@
 3. Flip Me Over: a function that returns the transpose of a 2D matrix.
 
 4. Line Up: a function that adds two arrays element-wise.
+
+5. Across The Planes: a function that adds two matrices element-wise.
