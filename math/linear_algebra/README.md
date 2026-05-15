@@ -11,3 +11,9 @@
 4. Line Up: a function that adds two arrays element-wise.
 
 5. Across The Planes: a function that adds two matrices element-wise.
+
+6. Howdy Partner: a function that concatenates two arrays.
+
+7. Gettin’ Cozy: a function that concatenates two matrices along a specific axis.
+
+8. Ridin’ Bareback: a function that performs matrix multiplication.
