@@ -22,10 +22,14 @@
 
 10. I’ll Use My Scale: a function that calculates the shape of numpy.ndarray.
 
-11. The Western Exchange: a function get The transpose of a matrix by NumPy
+11. The Western Exchange: a function get The transpose of a matrix by NumPy.
 
 12. Bracing The Elements: a function that performs element-wise mathmatics.
 
 13. Cat's Got Your Tongue: a function that concatenates two matrices.
 
 14. Saddle Up: a function that performs matrix multiplication.
+
+15. Slice Like A Ninja: a function that slices a matrix along specific axes.
+
+16. The Whole Barn: a function that adds two matrices.
