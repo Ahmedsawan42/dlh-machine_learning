@@ -82,23 +82,23 @@ def minor(matrix):
 
     if not isinstance(matrix, list):
         raise TypeError("matrix must be a list of lists")
-    if matrix == []:
-        raise ValueError("matrix must be a list of lists")
     if not all(isinstance(row, list) for row in matrix):
         raise TypeError("matrix must be a list of lists")
-
-    if len(matrix) == 1 and len(matrix[0]) == 0:
-        return 1
+    if len(matrix) == 0:
+        raise ValueError("matrix must be a list of lists")
 
     rows = len(matrix)
-    if rows == 0:
-        return 1
-
     cols = len(matrix[0])
 
+    # Check for empty row case
+    if rows == 1 and cols == 0:
+        raise ValueError("matrix must be a non-empty square matrix")
+
+    # Check if square
     if rows != cols:
         raise ValueError("matrix must be a non-empty square matrix")
 
+    # Check if all rows have consistent lengths
     if not all(len(row) == cols for row in matrix):
         raise ValueError("matrix must be a non-empty square matrix")
 
