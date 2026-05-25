@@ -5,6 +5,55 @@ Module for matrix minor calculation.
 """
 
 
+def cofactor(matrix):
+    """
+    Calculate the cofactor matrix of a square matrix.
+
+    Args:
+        matrix: A list of lists representing a square matrix.
+
+    Returns:
+        The cofactor matrix as a list of lists.
+
+    Raises:
+        TypeError: If matrix is not a list of lists.
+        ValueError: If matrix is not a non-empty square matrix.
+    """
+
+    if not isinstance(matrix, list):
+        raise TypeError("matrix must be a list of lists")
+    if not all(isinstance(row, list) for row in matrix):
+        raise TypeError("matrix must be a list of lists")
+    if len(matrix) == 0:
+        raise ValueError("matrix must be a list of lists")
+
+    rows = len(matrix)
+    cols = len(matrix[0])
+
+    if rows == 1 and cols == 0:
+        raise ValueError("matrix must be a non-empty square matrix")
+
+    if rows != cols:
+        raise ValueError("matrix must be a non-empty square matrix")
+
+    if not all(len(row) == cols for row in matrix):
+        raise ValueError("matrix must be a non-empty square matrix")
+
+    minor_matrix = minor(matrix)
+    n = len(matrix)
+
+    cofactor_matrix = []
+    for i in range(n):
+        row = []
+        for j in range(n):
+            sign = 1 if (i + j) % 2 == 0 else -1
+            cofactor_value = sign * minor_matrix[i][j]
+            row.append(cofactor_value)
+        cofactor_matrix.append(row)
+
+    return cofactor_matrix
+
+
 def determinant(matrix):
     """
     Calculate the determinant of a square matrix.
@@ -90,15 +139,10 @@ def minor(matrix):
     rows = len(matrix)
     cols = len(matrix[0])
 
-    # Check for empty row case
     if rows == 1 and cols == 0:
         raise ValueError("matrix must be a non-empty square matrix")
-
-    # Check if square
     if rows != cols:
         raise ValueError("matrix must be a non-empty square matrix")
-
-    # Check if all rows have consistent lengths
     if not all(len(row) == cols for row in matrix):
         raise ValueError("matrix must be a non-empty square matrix")
 
@@ -126,52 +170,3 @@ def minor(matrix):
         minor_matrix.append(minor_row)
 
     return minor_matrix
-
-
-def cofactor(matrix):
-    """
-    Calculate the cofactor matrix of a square matrix.
-
-    Args:
-        matrix: A list of lists representing a square matrix.
-
-    Returns:
-        The cofactor matrix as a list of lists.
-
-    Raises:
-        TypeError: If matrix is not a list of lists.
-        ValueError: If matrix is not a non-empty square matrix.
-    """
-
-    if not isinstance(matrix, list):
-        raise TypeError("matrix must be a list of lists")
-    if not all(isinstance(row, list) for row in matrix):
-        raise TypeError("matrix must be a list of lists")
-    if len(matrix) == 0:
-        raise ValueError("matrix must be a list of lists")
-
-    rows = len(matrix)
-    cols = len(matrix[0])
-
-    if rows == 1 and cols == 0:
-        raise ValueError("matrix must be a non-empty square matrix")
-
-    if rows != cols:
-        raise ValueError("matrix must be a non-empty square matrix")
-
-    if not all(len(row) == cols for row in matrix):
-        raise ValueError("matrix must be a non-empty square matrix")
-
-    minor_matrix = minor(matrix)
-    n = len(matrix)
-
-    cofactor_matrix = []
-    for i in range(n):
-        row = []
-        for j in range(n):
-            sign = 1 if (i + j) % 2 == 0 else -1
-            cofactor_value = sign * minor_matrix[i][j]
-            row.append(cofactor_value)
-        cofactor_matrix.append(row)
-
-    return cofactor_matrix
