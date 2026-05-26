@@ -5,3 +5,7 @@
 1. Minor: a function that calculates the minor matrix of a matrix.
 
 2. Cofactor: a function that calculates the cofactor matrix of a matrix.
+
+3. Adjugate: a function that calculates the adjugate matrix of a matrix.
+
+4. Inverse: a function that calculates the inverse of a matrix.
