@@ -18,10 +18,12 @@ def summation_i_squared(n):
     """
     if n is None:
         return None
+
     if not isinstance(n, int):
         return None
+
     if n < 1:
-        return 0
+        return None
 
     # Mathematical closed-form formula: n(n+1)(2n+1)/6
     result = n * (n + 1) * (2 * n + 1) // 6
