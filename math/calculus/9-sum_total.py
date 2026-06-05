@@ -18,16 +18,12 @@ def summation_i_squared(n):
     """
     if n is None:
         return None
-
-    try:
-        n_int = int(n)
-    except (ValueError, TypeError):
+    if not isinstance(n, int):
         return None
-
-#    if n_int < 1:
-#        return 0  # Return 0 for n < 1 (empty sum)
+    if n < 1:
+        return 0
 
     # Mathematical closed-form formula: n(n+1)(2n+1)/6
-    result = n_int * (n_int + 1) * (2 * n_int + 1) // 6
+    result = n * (n + 1) * (2 * n + 1) // 6
 
     return result
