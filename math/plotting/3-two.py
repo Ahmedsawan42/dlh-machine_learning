@@ -1,10 +1,20 @@
 #!/usr/bin/env python3
+
+"""
+Two Line Graph Plotting Module.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def two():
+    """
+    Two Line Graph Plotting Function.
 
+    Parameters: None
+    Returns: None
+    """
     x = np.arange(0, 21000, 1000)
     r = np.log(0.5)
     t1 = 5730

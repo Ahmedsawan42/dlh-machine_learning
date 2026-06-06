@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
+
+"""
+All in one Graph Module.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def all_in_one():
+    """
+    All in one Graph Function.
+
+    Parameters: None
+    Returns: None
+    """
 
     y0 = np.arange(0, 11) ** 3
 

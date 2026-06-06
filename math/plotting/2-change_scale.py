@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
+
+"""
+Change Scale Module.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def change_scale():
+    """
+    Change Scale Function.
+
+    Parameters: None
+    Returns: None
+    """
     x = np.arange(0, 28651, 5730)
     r = np.log(0.5)
     t = 5730
