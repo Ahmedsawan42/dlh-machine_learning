@@ -1,10 +1,20 @@
 #!/usr/bin/env python3
+
+"""
+Scatter Graph Plotting Module.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def scatter():
+    """
+    Scatter Graph Plotting Function.
 
+    Parameters: None
+    Returns: None
+    """
     mean = [69, 0]
     cov = [[15, 8], [8, 15]]
     np.random.seed(5)
