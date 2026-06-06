@@ -1,10 +1,20 @@
 #!/usr/bin/env python3
+
+"""
+Line Graph Plotting Module.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def line():
+    """
+    Line Graph Plotting Function.
 
+    Parameters: None
+    Returns: None
+    """
     y = np.arange(0, 11) ** 3
     plt.figure(figsize=(6.4, 4.8))
 
