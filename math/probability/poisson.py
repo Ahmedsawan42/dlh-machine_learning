@@ -15,6 +15,9 @@ class Poisson:
             data: List of data to estimate the distribution (default: None)
             lambtha: Expected number of occurrences (default: 1.0)
         """
+
+        self.e = 2.7182818285
+
         if data is None:
             # Use the given lambtha
             if lambtha <= 0:
@@ -50,12 +53,18 @@ class Poisson:
         if k < 0:
             return 0
 
-        # Calculate PMF: P(X = k) = (e^(-λ) * λ^k) / k!
-        from math import exp, factorial
-
-        try:
-            result = (exp(-self.lambtha) * (self.lambtha ** k)) / factorial(k)
+        # Calculate factorial iteratively to match expected precision
+        def factorial(n):
+            result = 1
+            for i in range(1, n + 1):
+                result *= i
             return result
-        except OverflowError:
-            # Handle potential overflow for very large k
-            return 0
+
+        # Calculate PMF: P(X = k) = (e^(-λ) * λ^k) / k!
+        # Using the project's constant for e
+        e_to_negative_lambtha = self.e ** (-self.lambtha)
+        lambtha_pow_k = self.lambtha ** k
+        k_factorial = factorial(k)
+
+        result = (e_to_negative_lambtha * lambtha_pow_k) / k_factorial
+        return result
