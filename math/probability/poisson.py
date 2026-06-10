@@ -61,10 +61,32 @@ class Poisson:
             return result
 
         # Calculate PMF: P(X = k) = (e^(-λ) * λ^k) / k!
-        # Using the project's constant for e
         e_to_negative_lambtha = self.e ** (-self.lambtha)
         lambtha_pow_k = self.lambtha ** k
         k_factorial = factorial(k)
 
         result = (e_to_negative_lambtha * lambtha_pow_k) / k_factorial
         return result
+
+    def cdf(self, k):
+        """Calculate the Cumulative Distribution Function (CDF) for a given k.
+
+        Args:
+            k: Number of "successes" (non-negative integer)
+
+        Returns:
+            CDF value for k (probability of k or fewer occurrences)
+        """
+        # Convert k to integer if it's not already
+        k = int(k)
+
+        # If k is out of range (negative), return 0
+        if k < 0:
+            return 0
+
+        # Calculate CDF: P(X ≤ k) = sum_{i=0}^{k} P(X = i)
+        cdf_value = 0
+        for i in range(k + 1):
+            cdf_value += self.pmf(i)
+
+        return cdf_value
