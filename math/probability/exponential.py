@@ -47,7 +47,7 @@ class Exponential:
             return 0
 
         # Calculate PDF: f(x) = λ * e^(-λx)
-        e = 2.718281828
+        e = 2.7182818285
 
         pdf_value = self.lambtha * (e ** (-self.lambtha * x))
         return pdf_value
