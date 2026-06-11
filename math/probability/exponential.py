@@ -16,7 +16,6 @@ class Exponential:
             lambtha: Expected number of occurrences in a given time frame.
         """
         if data is None:
-            # Use the given lambtha
             if lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
             self.lambtha = float(lambtha)
@@ -34,3 +33,21 @@ class Exponential:
             # Validate that calculated lambtha is positive
             if self.lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
+
+    def pdf(self, x):
+        """Calculate the Prob. Density Function (PDF) for a given time period.
+
+        Args:
+            x: Time period (non-negative value)
+
+        Returns:
+            PDF value for x
+        """
+        if x < 0:
+            return 0
+
+        # Calculate PDF: f(x) = λ * e^(-λx)
+        e = 2.718281828
+
+        pdf_value = self.lambtha * (e ** (-self.lambtha * x))
+        return pdf_value
