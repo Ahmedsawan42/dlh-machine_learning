@@ -101,5 +101,4 @@ class Normal:
         u = z / (2 ** 0.5)
         cdf_value = 0.5 * (1 + erf(u))
 
-        # Clamp to [0, 1] for numerical stability
-        return max(0.0, min(1.0, cdf_value))
+        return cdf_value
