@@ -26,6 +26,8 @@ class Normal:
             # Calculate mean and stddev from data
             if not isinstance(data, list):
                 raise TypeError("data must be a list")
+            if len(data) < 2:
+                raise ValueError("data must contain multiple values")
 
             # Calculate the mean
             self.mean = float(sum(data) / len(data))
