@@ -13,3 +13,7 @@
 5. Exponential CDF: Update the class Calculates the value of the CDF.
 
 6. Initialize Normal: Create class represents the Normal distribution.
+
+7. Normalize Normal: Update the class Normal to Calculates the z-score.
+
+8. Normal PDF: Update the class to Calculates the value of the PDF.

@@ -65,3 +65,21 @@ class Normal:
         # Formula: x = μ + z * σ
         x = self.mean + (z * self.stddev)
         return x
+
+    def pdf(self, x):
+        """Calc the Probability Density Function (PDF) for a given x-value.
+
+        Args:
+            x: The x-value
+
+        Returns:
+            The PDF value for x
+        """
+        pi = 3.1415926536
+        e = 2.7182818285
+
+        # Calculate PDF: f(x) = (1 / (σ * √(2π))) * e^(-(x-μ)²/(2σ²))
+        coefficient = 1 / (self.stddev * ((2 * pi) ** 0.5))
+        exponent = -((x - self.mean) ** 2) / (2 * (self.stddev ** 2))
+
+        pdf_value = coefficient * (e ** exponent)
