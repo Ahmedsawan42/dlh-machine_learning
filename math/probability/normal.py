@@ -43,11 +43,9 @@ class Normal:
     def z_score(self, x):
         """Calculate the z-score of a given x-value.
 
-        Args:
-            x: The x-value to convert to a z-score
+        Args: x: The x-value to convert to a z-score
 
-        Returns:
-            The z-score of x
+        Returns: The z-score of x
         """
         # Formula: z = (x - μ) / σ
         z = (x - self.mean) / self.stddev
@@ -56,11 +54,9 @@ class Normal:
     def x_value(self, z):
         """Calculate the x-value of a given z-score.
 
-        Args:
-            z: The z-score to convert to an x-value
+        Args: z: The z-score to convert to an x-value
 
-        Returns:
-            The x-value corresponding to the z-score
+        Returns: The x-value corresponding to the z-score
         """
         # Formula: x = μ + z * σ
         x = self.mean + (z * self.stddev)
@@ -69,11 +65,9 @@ class Normal:
     def pdf(self, x):
         """Calc the Probability Density Function (PDF) for a given x-value.
 
-        Args:
-            x: The x-value
+        Args: x: The x-value
 
-        Returns:
-            The PDF value for x
+        Returns: The PDF value for x
         """
         pi = 3.1415926536
         e = 2.7182818285
@@ -84,3 +78,28 @@ class Normal:
 
         pdf_value = coefficient * (e ** exponent)
         return pdf_value
+
+    def cdf(self, x):
+        """Calc Cumulative Distribution Function (CDF) for given x-value."""
+        pi = 3.1415926536
+
+        z = self.z_score(x)
+
+        # Define erf using the formula
+        def erf(x):
+            """The Error function."""
+            sqrt_pi = pi ** 0.5
+            return (2 / sqrt_pi) * (
+                x
+                - (x ** 3) / 3
+                + (x ** 5) / 10
+                - (x ** 7) / 42
+                + (x ** 9) / 216
+            )
+
+        # Calculate CDF using erf: F(x) = 1/2 * [1 + erf(z / √2)]
+        u = z / (2 ** 0.5)
+        cdf_value = 0.5 * (1 + erf(u))
+
+        # Clamp to [0, 1] for numerical stability
+        return max(0.0, min(1.0, cdf_value))
