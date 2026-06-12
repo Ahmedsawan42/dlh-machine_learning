@@ -83,3 +83,4 @@ class Normal:
         exponent = -((x - self.mean) ** 2) / (2 * (self.stddev ** 2))
 
         pdf_value = coefficient * (e ** exponent)
+        return pdf_value
