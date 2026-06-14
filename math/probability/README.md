@@ -24,3 +24,4 @@
 
 11. Binomial PMF: Update the class to Calculates the value of the PDF.
 
+12. Binomial CDF:  Update the class to Calculates the value of the CDF.
