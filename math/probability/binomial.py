@@ -58,3 +58,32 @@ class Binomial:
             # Validate that p is a valid probability
             if self.p <= 0 or self.p >= 1:
                 raise ValueError("p must be greater than 0 and less than 1")
+
+    def pmf(self, k):
+        """Calculate the Probability Mass Function (PMF)
+            for a given number of successes.
+
+        Args: k: Number of "successes" (non-negative integer)
+
+        Returns: PMF value for k (probability of exactly k successes)
+        """
+        k = int(k)
+
+        if k < 0 or k > self.n:
+            return 0
+
+        # Calculate binomial coefficient: C(n, k) = n! / (k! * (n - k)!)
+        def factorial(num):
+            """Calculate factorial iteratively."""
+            result = 1
+            for i in range(1, num + 1):
+                result *= i
+            return result
+
+        # Calculate binomial coefficient
+        binom_cof = factorial(self.n) / (factorial(k) * factorial(self.n - k))
+
+        # Calculate PMF: P(X = k) = C(n, k) * p^k * (1-p)^(n-k)
+        pmf_value = binom_cof * (self.p ** k) * ((1 - self.p) ** (self.n - k))
+
+        return pmf_value
