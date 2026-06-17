@@ -51,9 +51,21 @@ def likelihood(x, n, P):
         return result
 
     comb_val = factorial(n) // (factorial(x) * factorial(n - x))
+    comb_val = float(comb_val)  # Convert to float for NumPy
 
     # Calculate likelihood for each probability in P
-    # L(p) = C(n, x) * p^x * (1-p)^(n-x)
-    likelihood_values = comb_val * (P ** x) * ((1 - P) ** (n - x))
+    # Handle edge cases to avoid 0**0 issues
+    p_power = np.where(P == 0,
+                       np.where(x == 0, 1.0, 0.0),
+                       np.power(P, x))
 
-    return likelihood_values
+    q_power = np.where(P == 1,
+                       np.where(n - x == 0, 1.0, 0.0),
+                       np.power((1 - P), (n - x)))
+
+    likelihood_v = comb_val * p_power * q_power
+
+    # Clean up very small values
+    likelihood_v = np.where(np.abs(likelihood_v) < 1e-15, 0.0, likelihood_v)
+
+    return likelihood_v
