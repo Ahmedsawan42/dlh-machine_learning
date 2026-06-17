@@ -9,6 +9,14 @@ def likelihood(x, n, P):
     """
     Calculates the likelihood of obtaining observed data given various
     hypothetical probabilities of developing severe side effects.
+
+    Parameters:
+    x (int): number of patients that develop severe side effects
+    n (int): total number of patients observed
+    P (numpy.ndarray): 1D array of hypothetical probabilities
+
+    Returns:
+    numpy.ndarray: 1D array containing likelihood for each probability in P
     """
     # Validate n
     if not isinstance(n, int) or n <= 0:
@@ -43,11 +51,24 @@ def likelihood(x, n, P):
         return result
 
     comb_val = factorial(n) // (factorial(x) * factorial(n - x))
+    comb_val = float(comb_val)  # Convert to float for NumPy
 
     # Calculate likelihood for each probability in P
-    likelihood_values = comb_val * (P ** x) * ((1 - P) ** (n - x))
+    # Handle edge cases to avoid 0**0 issues
+    p_power = np.where(P == 0,
+                       np.where(x == 0, 1.0, 0.0),
+                       np.power(P, x))
 
-    return likelihood_values
+    q_power = np.where(P == 1,
+                       np.where(n - x == 0, 1.0, 0.0),
+                       np.power((1 - P), (n - x)))
+
+    likelihood_v = comb_val * p_power * q_power
+
+    # Clean up very small values
+    likelihood_v = np.where(np.abs(likelihood_v) < 1e-15, 0.0, likelihood_v)
+
+    return likelihood_v
 
 
 def intersection(x, n, P, Pr):
