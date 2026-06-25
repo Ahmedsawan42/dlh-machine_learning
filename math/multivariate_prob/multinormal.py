@@ -50,8 +50,7 @@ class MultiNormal:
 
         Args:
             x: numpy.ndarray of shape (d, 1) containing the data point whose
-            PDF should be calculated.
-            d is the number of dimensions of the Multinomial instance
+            PDF should be calculated
 
         Returns: float: The PDF value at point x
         """
@@ -66,43 +65,36 @@ class MultiNormal:
         if x.shape != (d, 1):
             raise ValueError(f"x must have the shape ({d}, 1)")
 
-        # Center the data point by subtracting the mean
+        # Center the data point
         x_centered = x - self.mean
 
         # Calculate the inverse of the covariance matrix
-        # Using Cholesky decomposition or SVD for numerical stability
+        # Using Cholesky decomposition for better numerical stability
         try:
-            # Try to compute the inverse directly
-            cov_inv = np.linalg.inv(self.cov)
+            # Using Cholesky decomposition: L @ L.T = cov
+            # Then cov_inv = (L^-1).T @ L^-1
+            L = np.linalg.cholesky(self.cov)
+            L_inv = np.linalg.inv(L)
+            cov_inv = L_inv.T @ L_inv
         except np.linalg.LinAlgError:
-            # If singular, use pseudo-inverse
-            cov_inv = np.linalg.pinv(self.cov)
+            # If Cholesky fails (non-positive definite), use general inverse
+            cov_inv = np.linalg.inv(self.cov)
 
-        # Calculate the distance squared: (x - mean)^T @ cov_inv @ (x - mean)
-        # x_centered is (d, 1), so x_centered.T is (1, d)
-        # cov_inv is (d, d)
-        # Result is (1, 1)
+        # Calculate the Mahalanobis distance squared
         mahalanobis_sq = (x_centered.T @ cov_inv @ x_centered).item()
 
-        # Calculate the normalization constant
-        # (2*pi)^(-d/2) * det(cov)^(-1/2)
+        # Calculate the determ. of the covariance matrix using Cholesky
+        try:
+            L = np.linalg.cholesky(self.cov)
+            # det(cov) = det(L) * det(L.T) = det(L)^2
+            det_cov = np.prod(np.diag(L)) ** 2
+        except np.linalg.LinAlgError:
+            # Fall back to regular determinant
+            det_cov = np.linalg.det(self.cov)
 
-        # Calculate the determinant of the covariance matrix
-        det_cov = np.linalg.det(self.cov)
-
-        # Handle potential numerical issues with determinant
+        # If determ. is negative or zero (shouldn't be for valid covariance)
         if det_cov <= 0:
-            # If determinant is close to zero or negative
-            # (due to numerical errors), use the pseudo-determinant
-            eigenvalues = np.linalg.eigvalsh(self.cov)
-            # Filter negative eigenvalues (shouldn't in covariance matrices)
-            # and very small positive eigenvalues
-            positive_eigenvalues = eigenvalues[eigenvalues > 1e-10]
-            if len(positive_eigenvalues) > 0:
-                det_cov = np.prod(positive_eigenvalues)
-            else:
-                # If all eigenvalues near zero, set deter. to a small number
-                det_cov = 1e-10
+            det_cov = 1e-10
 
         # Calculate the normalization constant
         norm_const = 1.0 / ((2 * np.pi) ** (d / 2.0) * np.sqrt(det_cov))
