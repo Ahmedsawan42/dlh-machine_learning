@@ -70,20 +70,22 @@ class MultiNormal:
 
         # Calculate the inverse of the covariance matrix
         # Using Cholesky decomposition for better numerical stability
+        """
         try:
             # Using Cholesky decomposition: L @ L.T = cov
             # Then cov_inv = (L^-1).T @ L^-1
             L = np.linalg.cholesky(self.cov)
             L_inv = np.linalg.inv(L)
             cov_inv = L_inv.T @ L_inv
-        except np.linalg.LinAlgError:
+        except np.linalg.LinAlgError:"""
             # If Cholesky fails (non-positive definite), use general inverse
-            cov_inv = np.linalg.inv(self.cov)
+        cov_inv = np.linalg.inv(self.cov)
 
         # Calculate the Mahalanobis distance squared
         mahalanobis_sq = (x_centered.T @ cov_inv @ x_centered).item()
 
         # Calculate the determ. of the covariance matrix using Cholesky
+        
         try:
             L = np.linalg.cholesky(self.cov)
             # det(cov) = det(L) * det(L.T) = det(L)^2
