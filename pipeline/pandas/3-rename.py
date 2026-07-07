@@ -18,8 +18,8 @@ def rename(df):
     df = df.rename(columns={'Timestamp': 'Datetime'})
 
     # Convert the Datetime column to datetime values
-    # The timestamps appear to be in nanoseconds in correction
-    df['Datetime'] = pd.to_datetime(df['Datetime'], unit='ns')
+    # The timestamps are in seconds since the Unix epoch
+    df['Datetime'] = pd.to_datetime(df['Datetime'], unit='s')
 
     # Keep only Datetime and Close columns
     df = df[['Datetime', 'Close']]
