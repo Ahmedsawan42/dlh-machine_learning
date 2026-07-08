@@ -13,3 +13,7 @@
 5. Slice: function that takes a pd.DataFrame and returns sliced pd.DataFrame.
 
 6. Flip it and Switch it:  a function takes df and Returns the transformed df.
+
+7. Sort: a function sorts the DataFrame descending by the High price.
+
+8. Prune: a function removes any entries where Close has NaN values.
