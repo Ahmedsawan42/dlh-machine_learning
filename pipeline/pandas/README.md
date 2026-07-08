@@ -17,3 +17,7 @@
 7. Sort: a function sorts the DataFrame descending by the High price.
 
 8. Prune: a function removes any entries where Close has NaN values.
+
+9. Fill: a function that Fills missing different values.
+
+10. Indexing: a function that sets the Timestamp column as index of the df.
