@@ -8,3 +8,8 @@
 
 3. Rename: to Renames Timestamp column to Datetime.
 
+4. To Numpy: creates a np.ndarray from a pd.DataFrame.
+
+5. Slice: function that takes a pd.DataFrame and returns sliced pd.DataFrame.
+
+6. Flip it and Switch it:  a function takes df and Returns the transformed df.
