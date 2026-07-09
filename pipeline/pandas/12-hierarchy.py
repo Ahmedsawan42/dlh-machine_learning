@@ -22,12 +22,16 @@ def hierarchy(df1, df2):
     Returns: the concatenated pd.DataFrame
     """
     # Index both dataframes on their Timestamp columns
-    df1_indxd = index(df1)
-    df2_indxd = index(df2)
+    df1_indexed = index(df1)
+    df2_indexed = index(df2)
 
     # Filter both dataframes for timestamps between 1417411980 and 1417417980.
-    df1_filtered = df1_indxd[df1_indxd.index.between(1417411980, 1417417980)]
-    df2_filtered = df2_indxd[df2_indxd.index.between(1417411980, 1417417980)]
+    df1_filtered = df1_indexed[
+        (df1_indexed.index >= 1417411980) & (df1_indexed.index <= 1417417980)
+    ]
+    df2_filtered = df2_indexed[
+        (df2_indexed.index >= 1417411980) & (df2_indexed.index <= 1417417980)
+    ]
 
     # Concatenate with keys
     concatenated = pd.concat(
