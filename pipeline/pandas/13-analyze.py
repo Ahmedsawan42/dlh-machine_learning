@@ -2,8 +2,6 @@
 
 """a Model that computes descriptive statistics for all columns"""
 
-import numpy as np
-
 
 def analyze(df):
     """
@@ -14,7 +12,7 @@ def analyze(df):
     Returns: a new pd.DataFrame containing these statistics
     """
     # Select numeric columns and exclude Timestamp
-    numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+    numeric_cols = df.select_dtypes(include='number').columns.tolist()
 
     # Remove Timestamp if it's somehow numeric (unlikely but just in case)
     if 'Timestamp' in numeric_cols:
