@@ -21,3 +21,11 @@
 9. Fill: a function that Fills missing different values.
 
 10. Indexing: a function that sets the Timestamp column as index of the df.
+
+11. Concat: a function concatenates two DataFrames with specific requirements.
+
+12. Hierarchy: a function rearranges two DataFrames with specific requirements
+
+13. Analyze: a function computes descriptive statistics for all columns.
+
+14. Visualize: a script that visualize the DataFrame.
