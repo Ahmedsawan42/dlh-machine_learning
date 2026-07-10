@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""a Model that visualize the DataFrame"""
+"""a Model that visualizes the DataFrame"""
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -33,10 +33,10 @@ df['Volume_(BTC)'] = df['Volume_(BTC)'].fillna(0)
 df['Volume_(Currency)'] = df['Volume_(Currency)'].fillna(0)
 
 # Filter data from 2017 and beyond
-df_2017 = df[df.index >= '2017-01-01']
+df = df[df.index >= '2017-01-01']
 
 # Resample at daily intervals and aggregate
-daily_df = df_2017.resample('D').agg({
+df = df.resample('D').agg({
     'High': 'max',
     'Low': 'min',
     'Open': 'mean',
@@ -45,34 +45,9 @@ daily_df = df_2017.resample('D').agg({
     'Volume_(Currency)': 'sum'
 })
 
-# Plot the data
-plt.figure(figsize=(12, 8))
+# Print the transformed pd.DataFrame before plotting
+print(df)
 
-# Plot Close price
-plt.subplot(2, 1, 1)
-plt.plot(daily_df.index, daily_df['Close'], label='Close Price', color='blue')
-plt.title('Daily Close Price (2017 and beyond)')
-plt.xlabel('Date')
-plt.ylabel('Price')
-plt.legend()
-plt.grid(True)
-
-# Plot Volume
-plt.subplot(2, 1, 2)
-plt.plot(
-        daily_df.index,
-        daily_df['Volume_(BTC)'],
-        label='Volume (BTC)',
-        color='orange'
-    )
-plt.title('Daily Volume (BTC) - 2017 and beyond')
-plt.xlabel('Date')
-plt.ylabel('Volume (BTC)')
-plt.legend()
-plt.grid(True)
-
-plt.tight_layout()
+# Plot the data — single plot with all columns
+df.plot()
 plt.show()
-
-# Return the transformed pd.DataFrame before plotting
-transformed_df = daily_df
