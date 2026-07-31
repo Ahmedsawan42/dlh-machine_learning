@@ -15,3 +15,7 @@
 6. Expectation: a function that calculates the expectation step in GMM.
 
 7. Maximization: a function that calculates the maximization step in GMM.
+
+8. EM: a function that performs the expectation maximization for a GMM.
+
+9. BIC: a function that finds the best number of clusters for a GMM.
