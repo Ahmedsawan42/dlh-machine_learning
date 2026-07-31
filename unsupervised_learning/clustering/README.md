@@ -19,3 +19,9 @@
 8. EM: a function that performs the expectation maximization for a GMM.
 
 9. BIC: a function that finds the best number of clusters for a GMM.
+
+10. Hello, sklearn!: a function that performs K-means on a dataset.
+
+11. GMM: a function that calculates a GMM from a datase.
+
+12. Agglomerative: that performs agglomerative clustering on a dataset.

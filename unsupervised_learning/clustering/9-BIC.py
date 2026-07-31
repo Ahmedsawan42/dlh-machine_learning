@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Model that finds the best number of clusters for a GMM using BIC"""
+
+"""a Model that Finds the best number of clusters for a GMM using the BIC"""
 
 import numpy as np
+expectation_maximization = __import__('8-EM').expectation_maximization
 
 
 def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
@@ -9,73 +11,53 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
     Finds the best number of clusters for a GMM
     using the Bayesian Information Criterion.
     """
-    expectation_maximization = __import__('8-EM').expectation_maximization
+    try:
+        if not isinstance(X, np.ndarray) or X.ndim != 2:
+            return None, None, None, None
+        n, d = X.shape
+        if n == 0 or d == 0:
+            return None, None, None, None
+        if not isinstance(kmin, int) or kmin < 1:
+            return None, None, None, None
+        if kmax is None:
+            kmax = n
+        if not isinstance(kmax, int) or kmax < 1:
+            return None, None, None, None
+        if kmax < kmin:
+            return None, None, None, None
+        if not isinstance(iterations, int) or iterations < 1:
+            return None, None, None, None
+        if not isinstance(tol, (int, float)) or tol < 0:
+            return None, None, None, None
+        if not isinstance(verbose, bool):
+            return None, None, None, None
 
-    # Input validation
-    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
-        return None, None, None, None
-    if not isinstance(kmin, int) or kmin < 1:
-        return None, None, None, None
-    if not isinstance(iterations, int) or iterations < 1:
-        return None, None, None, None
-    if not isinstance(tol, (int, float)) or tol < 0:
-        return None, None, None, None
-    if not isinstance(verbose, bool):
-        return None, None, None, None
+        k_range = kmax - kmin + 1
+        lh_sum = np.zeros(k_range)
+        b = np.zeros(k_range)
 
-    n, d = X.shape
+        best_k = None
+        best_result = None
+        best_bic = np.inf
 
-    if kmax is None:
-        kmax = n
-    elif not isinstance(kmax, int) or kmax < 1:
-        return None, None, None, None
-
-    if kmin > kmax:
-        return None, None, None, None
-
-    if kmax > n:
-        kmax = n
-
-    num_ks = kmax - kmin + 1
-    if num_ks < 1:
-        return None, None, None, None
-
-    log_likelihoods = np.full(num_ks, -np.inf)
-    bic_values = np.full(num_ks, np.inf)
-    results = [None] * num_ks
-
-    best_k = None
-    best_bic = np.inf
-    best_result = None
-
-    # At most 1 loop
-    for i, k in enumerate(range(kmin, kmax + 1)):
-        try:
-            pi, m, S, g, l = expectation_maximization(
-                X, k, iterations, tol, verbose
+        for i, k in enumerate(range(kmin, kmax + 1)):
+            pi, m, S, g, l_val = expectation_maximization(
+                X, k, iterations=iterations, tol=tol, verbose=verbose
             )
-        except Exception:
-            continue
+            if pi is None:
+                return None, None, None, None
 
-        if pi is None or m is None or S is None or g is None or l is None:
-            continue
+            p = k - 1 + k * d + k * d * (d + 1) // 2
+            bic_val = p * np.log(n) - 2 * l_val
 
-        log_likelihoods[i] = l
+            lh_sum[i] = l_val
+            b[i] = bic_val
 
-        # Parameter count for GMM with full covariance matrices
-        p = (k - 1) + (k * d) + (k * d * (d + 1) / 2)
+            if bic_val < best_bic:
+                best_bic = bic_val
+                best_k = k
+                best_result = (pi, m, S)
 
-        # BIC = p * ln(n) - 2 * l
-        bic = p * np.log(n) - 2 * l
-        bic_values[i] = bic
-        results[i] = (pi, m, S)
-
-        if bic < best_bic:
-            best_bic = bic
-            best_k = k
-            best_result = (pi, m, S)
-
-    if best_k is None:
+        return best_k, best_result, lh_sum, b
+    except Exception:
         return None, None, None, None
-
-    return best_k, best_result, log_likelihoods, bic_values

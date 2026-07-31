@@ -22,62 +22,39 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
         d_vars: list containing the dif. in variance from the smallest clst s.
         Returns (None, None) on failure
     """
-    # Input validation
-    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
-        return None, None
-    if not isinstance(kmin, int) or kmin <= 0:
-        return None, None
-    if not isinstance(iterations, int) or iterations <= 0:
-        return None, None
-
-    # Set kmax if not provided
-    if kmax is None:
-        kmax = X.shape[0]  # Max. possible clusters is number of data points
-    elif not isinstance(kmax, int) or kmax <= 0:
-        return None, None
-
-    # Ensure kmin <= kmax
-    if kmin > kmax:
-        return None, None
-
-    # Ensure at least 2 different cluster sizes are analyzed
-    if kmax - kmin + 1 < 2:
-        return None, None
-
-    n, d = X.shape
-
-    # Check if kmax is valid (can't have more clusters than data points)
-    if kmax > n:
-        kmax = n
-        if kmax - kmin + 1 < 2:
+    try:
+        if not isinstance(X, np.ndarray) or X.ndim != 2:
+            return None, None
+        n, d = X.shape
+        if n == 0 or d == 0:
+            return None, None
+        if not isinstance(kmin, int) or kmin < 1:
+            return None, None
+        if kmax is None:
+            kmax = n
+        if not isinstance(kmax, int) or kmax < 1:
+            return None, None
+        if not isinstance(iterations, int) or iterations < 1:
+            return None, None
+        if kmax <= kmin:
             return None, None
 
-    results = []
-    variances = []
+        results = []
+        d_vars = []
+        first_var = None
 
-    # Loop through each cluster size
-    for k in range(kmin, kmax + 1):
-        # Run K-means for this cluster size
-        C, clss = kmeans(X, k, iterations)
+        for k in range(kmin, kmax + 1):
+            C, clss = kmeans(X, k, iterations)
+            if C is None:
+                return None, None
+            var = variance(X, C)
+            if var is None:
+                return None, None
+            results.append((C, clss))
+            if first_var is None:
+                first_var = var
+            d_vars.append(first_var - var)
 
-        # Check for failure
-        if C is None or clss is None:
-            return None, None
-
-        # Calculate variance for this clustering
-        var = variance(X, C)
-        if var is None:
-            return None, None
-
-        # Store results
-        results.append((C, clss))
-        variances.append(var)
-
-    # Calculate differences in variance from the smallest cluster size
-    # The smallest cluster size is kmin (first element in the list)
-    min_variance = variances[0]
-    # Use absolute difference or variance(kmin) - variance(k)
-    # Since variance decreases as k increases, this gives positive values
-    d_vars = [min_variance - var for var in variances]
-
-    return results, d_vars
+        return results, d_vars
+    except Exception:
+        return None, None

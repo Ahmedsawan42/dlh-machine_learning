@@ -27,53 +27,59 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         l: log likelihood of the model
         Returns (None, None, None, None, None) on failure
     """
-    # Input validation
-    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
-        return None, None, None, None, None
-    if not isinstance(k, int) or k <= 0:
-        return None, None, None, None, None
-    if not isinstance(iterations, int) or iterations <= 0:
-        return None, None, None, None, None
-    if not isinstance(tol, (int, float)) or tol < 0:
-        return None, None, None, None, None
-    if not isinstance(verbose, bool):
-        return None, None, None, None, None
-    if k > X.shape[0]:
-        return None, None, None, None, None
-
-    n, d = X.shape
-
-    # Initialize parameters using initialize function
-    pi, m, S = initialize(X, k)
-    if pi is None or m is None or S is None:
-        return None, None, None, None, None
-
-    # Initialize log likelihood
-    l_prev = -np.inf
-    l = -np.inf
-
-    # EM algorithm - at most 1 loop
-    for i in range(iterations + 1):  # Include iteration 0
-        # E-step: Calculate posterior probabilities and log likelihood
-        g, l = expectation(X, pi, m, S)
-        if g is None or l is None:
+    try:
+        if not isinstance(X, np.ndarray) or X.ndim != 2:
+            return None, None, None, None, None
+        if not isinstance(k, int) or k <= 0:
+            return None, None, None, None, None
+        if not isinstance(iterations, int) or iterations <= 0:
+            return None, None, None, None, None
+        if not isinstance(tol, (int, float)) or tol < 0:
+            return None, None, None, None, None
+        if not isinstance(verbose, bool):
             return None, None, None, None, None
 
-        # Print log likelihood if verbose
-        if verbose and (i % 10 == 0 or i == iterations):
-            print(f"Log Likelihood after {i} iterations: {l:.5f}")
-
-        # Check for convergence
-        if i > 0 and abs(l - l_prev) <= tol:
-            break
-
-        # M-step: Update parameters
-        pi_new, m_new, S_new = maximization(X, g)
-        if pi_new is None or m_new is None or S_new is None:
+        n, d = X.shape
+        if n == 0 or d == 0:
             return None, None, None, None, None
 
-        # Update parameters
-        pi, m, S = pi_new, m_new, S_new
-        l_prev = l
+        pi, m, S = initialize(X, k)
+        if pi is None or m is None or S is None:
+            return None, None, None, None, None
 
-    return pi, m, S, g, l
+        g, lh_sum = expectation(X, pi, m, S)
+        if g is None or lh_sum is None:
+            return None, None, None, None, None
+
+        if verbose:
+            print(f"Log Likelihood after 0 iterations: {lh_sum:.5f}")
+
+        for i in range(1, iterations + 1):
+            pi, m, S = maximization(X, g)
+            if pi is None:
+                return None, None, None, None, None
+
+            g, l_new = expectation(X, pi, m, S)
+            if g is None or l_new is None:
+                return None, None, None, None, None
+
+            if verbose and i % 10 == 0:
+                print(f"Log Likelihood after {i} iterations: {l_new:.5f}")
+
+            if abs(l_new - lh_sum) <= tol:
+                if verbose and i % 10 != 0:
+                    print(f"Log Likelihood after {i} iterations: {l_new:.5f}")
+                lh_sum = l_new
+                break
+
+            lh_sum = l_new
+        else:
+            if verbose and iterations % 10 != 0:
+                print(
+                    f"Log Likelihood after {iterations} iterations: "
+                    f"{lh_sum:.5f}"
+                )
+
+        return pi, m, S, g, lh_sum
+    except Exception:
+        return None, None, None, None, None
