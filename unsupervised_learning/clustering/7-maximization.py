@@ -31,20 +31,24 @@ def maximization(X, g):
         if g.shape[1] != n or n == 0 or d == 0 or k == 0:
             return None, None, None
 
+        if not np.issubdtype(g.dtype, np.number):
+            return None, None, None
+
+        if np.any(np.isnan(g)) or np.any(np.isinf(g)) or np.any(g < 0):
+            return None, None, None
+
         N = np.sum(g, axis=1)
         if np.any(N == 0):
             return None, None, None
 
         pi = N / n
 
-        m = np.sum(
-            g[:, :, np.newaxis] * X[np.newaxis, :, :], axis=1
-        ) / N[:, np.newaxis]
+        m = (np.sum(g[:, :, np.newaxis] * X[np.newaxis, :, :], axis=1)
+             / N[:, np.newaxis])
 
         diff = X[np.newaxis, :, :] - m[:, np.newaxis, :]
-        S = np.einsum(
-            'kn,knd,kne->kde', g, diff, diff
-        ) / N[:, np.newaxis, np.newaxis]
+        S = (np.einsum('kn,knd,kne->kde', g, diff, diff)
+             / N[:, np.newaxis, np.newaxis])
 
         return pi, m, S
     except Exception:
