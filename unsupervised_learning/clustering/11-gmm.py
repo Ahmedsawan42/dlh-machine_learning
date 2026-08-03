@@ -2,15 +2,12 @@
 
 """a Model that calculates a GMM from a datase"""
 
-import numpy as np
 import sklearn.mixture
 
 
 def gmm(X, k):
     """Calculate a GMM from a dataset."""
     try:
-        if not isinstance(X, np.ndarray) or X.ndim != 2:
-            return None, None, None, None, None
         if not isinstance(k, int) or k < 1:
             return None, None, None, None, None
 
