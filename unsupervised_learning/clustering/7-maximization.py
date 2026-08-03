@@ -31,11 +31,10 @@ def maximization(X, g):
         if g.shape[1] != n or n == 0 or d == 0 or k == 0:
             return None, None, None
 
-        # reject truly malformed g (nan/inf), but allow tiny
-        # floating point noise near 0 instead of a hard g < 0 check
-        if np.any(np.isnan(g)) or np.any(np.isinf(g)):
-            return None, None, None
-        if np.any(g < -1e-8):
+        # each data point's responsibilities across clusters
+        # must sum to 1
+        col_sums = np.sum(g, axis=0)
+        if not np.all(np.isclose(col_sums, 1)):
             return None, None, None
 
         N = np.sum(g, axis=1)
