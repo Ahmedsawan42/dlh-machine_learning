@@ -31,14 +31,20 @@ def maximization(X, g):
         if g.shape[1] != n or n == 0 or d == 0 or k == 0:
             return None, None, None
 
-        if not np.issubdtype(g.dtype, np.number):
+        if not np.issubdtype(g.dtype, np.floating):
             return None, None, None
 
-        if np.any(np.isnan(g)) or np.any(np.isinf(g)) or np.any(g < 0):
+        if np.any(np.isnan(g)) or np.any(np.isinf(g)):
+            return None, None, None
+
+        # tolerance instead of a hard g < 0 check — avoids
+        # false positives from floating point noise
+        eps = 1e-8
+        if np.any(g < -eps):
             return None, None, None
 
         N = np.sum(g, axis=1)
-        if np.any(N == 0):
+        if np.any(N == 0) or np.any(np.isclose(N, 0)):
             return None, None, None
 
         pi = N / n
