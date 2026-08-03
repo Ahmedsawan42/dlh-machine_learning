@@ -31,30 +31,27 @@ def maximization(X, g):
         if g.shape[1] != n or n == 0 or d == 0 or k == 0:
             return None, None, None
 
-        if not np.issubdtype(g.dtype, np.floating):
-            return None, None, None
-
+        # reject truly malformed g (nan/inf), but allow tiny
+        # floating point noise near 0 instead of a hard g < 0 check
         if np.any(np.isnan(g)) or np.any(np.isinf(g)):
             return None, None, None
-
-        # tolerance instead of a hard g < 0 check — avoids
-        # false positives from floating point noise
-        eps = 1e-8
-        if np.any(g < -eps):
+        if np.any(g < -1e-8):
             return None, None, None
 
         N = np.sum(g, axis=1)
-        if np.any(N == 0) or np.any(np.isclose(N, 0)):
+        if np.any(N == 0):
             return None, None, None
 
         pi = N / n
 
-        m = (np.sum(g[:, :, np.newaxis] * X[np.newaxis, :, :], axis=1)
-             / N[:, np.newaxis])
+        m = np.sum(
+            g[:, :, np.newaxis] * X[np.newaxis, :, :], axis=1
+        ) / N[:, np.newaxis]
 
         diff = X[np.newaxis, :, :] - m[:, np.newaxis, :]
-        S = (np.einsum('kn,knd,kne->kde', g, diff, diff)
-             / N[:, np.newaxis, np.newaxis])
+        S = np.einsum(
+            'kn,knd,kne->kde', g, diff, diff
+        ) / N[:, np.newaxis, np.newaxis]
 
         return pi, m, S
     except Exception:
