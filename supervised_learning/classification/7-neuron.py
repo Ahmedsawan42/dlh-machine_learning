@@ -208,10 +208,12 @@ class Neuron:
             # Gradient descent
             self.gradient_descent(X, Y, A, alpha)
 
+            # Recalculate forward propagation with updated weights
+            current_A = self.forward_prop(X)
+
             # Check if we need to record cost at this iteration
             if (verbose or graph) and i % step == 0:
-                # Calculate current cost
-                current_cost = self.cost(Y, self.__A)
+                current_cost = self.cost(Y, current_A)
 
                 if verbose:
                     print(f"Cost after {i} iterations: {current_cost}")
