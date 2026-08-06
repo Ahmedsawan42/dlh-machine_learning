@@ -2,11 +2,11 @@
 
 0. Neuron: a function defines a single neuron performing binary classification
 
-1. Privatize Neuron: defines a single neuron performing binary classification.
+1. Privatize Neuron: add private attribute corresponding getter function.
 
-2. Neuron Forward Propagation: improvment of the class Based on 1-neuron.py.
+2. Neuron Forward Propagation: add method calculates the forward propagation.
 
-3. Neuron Cost: improvment of the class Based on 2-neuron.py.
+3. Neuron Cost: add method Calculates cost of the model using log. regression.
 
 4. Evaluate Neuron: improvment of the class Based on 3-neuron.py.
 
