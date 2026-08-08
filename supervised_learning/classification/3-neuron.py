@@ -26,19 +26,16 @@ class Neuron:
         # Initialize private activated output to 0
         self.__A = 0
 
-    # Getter for W
     @property
     def W(self):
-        """Get the weights vector for the neuron."""
+        """Get the weights vector of the neuron."""
         return self.__W
 
-    # Getter for b
     @property
     def b(self):
-        """Get the bias for the neuron."""
+        """Get the bias of the neuron."""
         return self.__b
 
-    # Getter for A
     @property
     def A(self):
         """Get the activated output of the neuron (prediction)."""
