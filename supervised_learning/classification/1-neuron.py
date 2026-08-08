@@ -6,7 +6,9 @@ import numpy as np
 
 
 class Neuron:
+    """This class defines a single neuron performing binary classification"""
     def __init__(self, nx):
+        """Initialize a new neuron performing binary classification"""
         # Check if nx is an integer
         if not isinstance(nx, int):
             raise TypeError("nx must be a integer")
@@ -27,14 +29,17 @@ class Neuron:
     # Getter for W
     @property
     def W(self):
+        """Get the weights vector for the neuron."""
         return self.__W
 
     # Getter for b
     @property
     def b(self):
+        """Get the bias for the neuron."""
         return self.__b
 
     # Getter for A
     @property
     def A(self):
+        """Get the activated output of the neuron (prediction)."""
         return self.__A
