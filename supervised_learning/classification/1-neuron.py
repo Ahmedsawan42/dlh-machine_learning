@@ -18,28 +18,28 @@ class Neuron:
             raise ValueError("nx must be positive")
 
         # Initialize private weights with random normal distribution (2D array)
-        self.__W = np.random.randn(1, nx)
+        self._W = np.random.randn(1, nx)
 
         # Initialize private bias to 0
-        self.__b = 0
+        self._b = 0
 
         # Initialize private activated output to 0
-        self.__A = 0
+        self._A = 0
 
     # Getter for W
     @property
     def W(self):
         """Get the weights vector for the neuron."""
-        return self.__W
+        return self._W
 
     # Getter for b
     @property
     def b(self):
         """Get the bias for the neuron."""
-        return self.__b
+        return self._b
 
     # Getter for A
     @property
     def A(self):
         """Get the activated output of the neuron (prediction)."""
-        return self.__A
+        return self._A
