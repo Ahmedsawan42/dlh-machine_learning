@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Neural Network module for binary classification with one hidden layer
+Neural Network module of binary classification with one hidden layer
 """
 
 import numpy as np
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 class NeuralNetwork:
     """
-    Defines a neural network with one hidden layer for binary classification
+    Defines a neural network with one hidden layer of binary classification
 
     Attributes:
         nx (int): Number of input features
@@ -18,7 +18,7 @@ class NeuralNetwork:
 
     def __init__(self, nx, nodes):
         """
-        Class constructor for NeuralNetwork
+        Class constructor of NeuralNetwork
 
         Args:
             nx (int): Number of input features
@@ -46,84 +46,84 @@ class NeuralNetwork:
         if nodes < 1:
             raise ValueError("nodes must be a positive integer")
 
-        # Initialize private weights for hidden layer with random normal
+        # Initialize private weights of hidden layer with random normal
         # Shape: (nodes, nx) - nodes neurons, each with nx weights
         self.__W1 = np.random.randn(nodes, nx)
 
-        # Initialize private bias for hidden layer with zeros
+        # Initialize private bias of hidden layer with zeros
         # Shape: (nodes, 1) - one bias per neuron in hidden layer
         self.__b1 = np.zeros((nodes, 1))
 
-        # Initialize private activated output for hidden layer to 0
+        # Initialize private activated output of hidden layer to 0
         self.__A1 = 0
 
-        # Initialize private weights for output neuron with random normal
+        # Initialize private weights of output neuron with random normal
         # Shape: (1, nodes) - 1 output neuron, with nodes weights
         self.__W2 = np.random.randn(1, nodes)
 
-        # Initialize private bias for output neuron to 0
+        # Initialize private bias of output neuron to 0
         self.__b2 = 0
 
-        # Initialize private activated output for output neuron to 0
+        # Initialize private activated output of output neuron to 0
         self.__A2 = 0
 
     @property
     def W1(self):
         """
-        Getter for private attribute __W1
+        Getter of private attribute __W1
 
         Returns:
-            numpy.ndarray: The weights matrix for the hidden layer
+            numpy.ndarray: The weights matrix of the hidden layer
         """
         return self.__W1
 
     @property
     def b1(self):
         """
-        Getter for private attribute __b1
+        Getter of private attribute __b1
 
         Returns:
-            numpy.ndarray: The bias vector for the hidden layer
+            numpy.ndarray: The bias vector of the hidden layer
         """
         return self.__b1
 
     @property
     def A1(self):
         """
-        Getter for private attribute __A1
+        Getter of private attribute __A1
 
         Returns:
-            numpy.ndarray: The activated output for the hidden layer
+            numpy.ndarray: The activated output of the hidden layer
         """
         return self.__A1
 
     @property
     def W2(self):
         """
-        Getter for private attribute __W2
+        Getter of private attribute __W2
 
         Returns:
-            numpy.ndarray: The weights vector for the output neuron
+            numpy.ndarray: The weights vector of the output neuron
         """
         return self.__W2
 
     @property
     def b2(self):
         """
-        Getter for private attribute __b2
+        Getter of private attribute __b2
 
         Returns:
-            float: The bias for the output neuron
+            float: The bias of the output neuron
         """
         return self.__b2
 
     @property
     def A2(self):
         """
-        Getter for private attribute __A2
+        Getter of private attribute __A2
 
         Returns:
-            numpy.ndarray: The activated output for the output neuron
+            numpy.ndarray: The activated output of the output neuron
         """
         return self.__A2
 
@@ -149,7 +149,7 @@ class NeuralNetwork:
         # Result shape: (nodes, m)
         Z1 = np.dot(self.__W1, X) + self.__b1
 
-        # Apply sigmoid activation for hidden layer
+        # Apply sigmoid activation of hidden layer
         # A1 = σ(Z1)
         self.__A1 = 1 / (1 + np.exp(-Z1))
 
@@ -159,7 +159,7 @@ class NeuralNetwork:
         # Result shape: (1, m)
         Z2 = np.dot(self.__W2, self.__A1) + self.__b2
 
-        # Apply sigmoid activation for output layer
+        # Apply sigmoid activation of output layer
         # A2 = σ(Z2)
         self.__A2 = 1 / (1 + np.exp(-Z2))
 
@@ -224,7 +224,7 @@ class NeuralNetwork:
         Args:
             X (numpy.ndarray): Input data with shape (nx, m)
             Y (numpy.ndarray): Correct labels with shape (1, m)
-            A1 (numpy.ndarray): Output of the hidden layer with shape (nodes, m)
+            A1 (numpy.ndarray): Output the hidden layer with shape (nodes, m)
             A2 (numpy.ndarray): Predicted output with shape (1, m)
             alpha (float): Learning rate (default 0.05)
 
@@ -282,9 +282,9 @@ class NeuralNetwork:
         Args:
             X (numpy.ndarray): Input data with shape (nx, m)
             Y (numpy.ndarray): Correct labels with shape (1, m)
-            iterations (int): Number of iterations to train over (default 5000)
+            iterations (int): Number of iterations to train over(default 5000)
             alpha (float): Learning rate (default 0.05)
-            verbose (bool): Whether to print training information (default True)
+            verbose (bool): Whether print training information (default True)
             graph (bool): Whether to plot training cost (default True)
             step (int): Steps between verbose output and graph points
                         (default 100)
@@ -349,10 +349,13 @@ class NeuralNetwork:
             # Gradient descent
             self.gradient_descent(X, Y, A1, A2, alpha)
 
+            # Recalculate forward propagation with updated weights
+            _, current_A2 = self.forward_prop(X)
+
             # Check if we need to record cost at this iteration
             if (verbose or graph) and i % step == 0:
-                # Calculate current cost
-                current_cost = self.cost(Y, self.__A2)
+                # Calculate current cost using updated activation
+                current_cost = self.cost(Y, current_A2)
 
                 if verbose:
                     print(f"Cost after {i} iterations: {current_cost}")
