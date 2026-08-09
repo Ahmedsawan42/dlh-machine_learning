@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+NN = __import__('15-neural_network').NeuralNetwork
+
+lib_train = np.load('../data/Binary_Train.npz')
+X_train_3D, Y_train = lib_train['X'], lib_train['Y']
+X_train = X_train_3D.reshape((X_train_3D.shape[0], -1)).T
+
+np.random.seed(1)
+nn = NN(X_train.shape[0], 3)
+try:
+    nn.train(X_train, Y_train, graph=False, step='10')
+except TypeError as e:
+    print(e)
+
+# alexa@ubuntu:~$ ./test8.py 
+# step must be an integer
