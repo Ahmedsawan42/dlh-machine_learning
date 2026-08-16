@@ -2,6 +2,8 @@
 
 """Module for training a Keras model using mini-batch gradient descent"""
 
+import tensorflow.keras as K
+
 
 def train_model(
     network,
