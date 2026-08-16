@@ -2,7 +2,7 @@
 
 """Module for converting label vectors to one-hot matrices"""
 
-import numpy as np
+import tensorflow.keras as K
 
 
 def one_hot(labels, classes=None):
@@ -18,9 +18,9 @@ def one_hot(labels, classes=None):
     """
     # If classes is not provided, determine it from the labels
     if classes is None:
-        classes = np.max(labels) + 1
+        classes = int(K.backend.max(labels) + 1)
 
-    # Create one-hot matrix using NumPy
-    one_hot_matrix = np.eye(classes)[labels]
+    # Create one-hot matrix using Keras utilities
+    one_hot_matrix = K.utils.to_categorical(labels, num_classes=classes)
 
     return one_hot_matrix
