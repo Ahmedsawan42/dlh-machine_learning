@@ -17,7 +17,7 @@ def train_model(
 
     Args:
         network: the model to train
-        data: numpy.ndarray of shape (m, nx) containing the input data
+        data: np.ndarray of shape (m, nx) containing the input data
         labels: one-hot np.ndarray of shape (m, classes) containing the labels
         batch_size: size of the batch used for mini-batch gradient descent
         epochs: number of passes through data for mini-batch gradient descent
