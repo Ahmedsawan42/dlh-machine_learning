@@ -33,8 +33,7 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         )
     )
 
-    # Add dropout after first layer if keep_prob < 1
-    if keep_prob < 1:
+    if len(layers) > 1 and keep_prob < 1:
         model.add(K.layers.Dropout(1 - keep_prob))
 
     # Add remaining hidden layers and output layer
