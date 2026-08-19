@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
 Module for training a Keras model using mini-batch gradient descent
 with early stopping, validation, and learning rate decay
@@ -73,16 +74,13 @@ def train_model(network, data, labels, batch_size, epochs,
             Returns:
                 The updated learning rate
             """
-            lr = alpha / (1 + decay_rate * epoch)
-            # Print message when learning rate updates
-            if verbose:
-                print(f"Epoch {epoch}: Learning rate updated to {lr:.6f}")
-            return lr
+            return alpha / (1 + decay_rate * epoch)
 
-        # Create LearningRateScheduler callback
+        # Create LearningRateScheduler callback with verbose=1
+        # This will automatically print the learning rate updates
         lr_callback = K.callbacks.LearningRateScheduler(
             schedule=lr_schedule,
-            verbose=0  # We handle printing ourselves
+            verbose=1  # This enables printing of learning rate updates
         )
         callbacks.append(lr_callback)
 
