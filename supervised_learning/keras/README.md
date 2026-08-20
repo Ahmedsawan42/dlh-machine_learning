@@ -14,7 +14,9 @@
 
 6. Early Stopping: update the function train_model to using early stopping.
 
+7. Learning Rate Decay: update to train the model with learning rate decay.
 
+8. Save Only the Best: update to also save the best iteration of the model.
 
 9. Save and Load Model: a functions saves and load an entire model.
 
