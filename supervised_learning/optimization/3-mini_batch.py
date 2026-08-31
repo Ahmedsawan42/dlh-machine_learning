@@ -2,9 +2,6 @@
 
 """This a module to create mini-batches for training neural networks."""
 
-import numpy as np
-
-# Import shuffle_data function
 shuffle_data = __import__('2-shuffle_data').shuffle_data
 
 
