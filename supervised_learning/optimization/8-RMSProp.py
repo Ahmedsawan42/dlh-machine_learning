@@ -2,7 +2,7 @@
 
 """This module create an RMSProp optimizer in TensorFlow."""
 
-import tensorflow.keras.optimizers as optim
+import tensorflow as tf
 
 
 def create_RMSProp_op(alpha, beta2, epsilon):
@@ -18,6 +18,10 @@ def create_RMSProp_op(alpha, beta2, epsilon):
         tensorflow.keras.optimizers.Optimizer: The RMSProp optimizer.
     """
     # Create RMSProp optimizer
-    optimizer = optim.RMSprop(learning_rate=alpha, rho=beta2, epsilon=epsilon)
+    optimizer = tf.keras.optimizers.RMSprop(
+        learning_rate=alpha,
+        rho=beta2,
+        epsilon=epsilon
+    )
 
     return optimizer
