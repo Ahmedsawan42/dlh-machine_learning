@@ -21,3 +21,11 @@
 9. Adam: a function update variables using the Adam optimization algorithm.
 
 10. Adam Upgraded: a function create an Adam optimizer in TensorFlow.
+
+11. Learning Rate Decay: a function update learning rate using inverse time decay.
+
+12. Learning Rate Decay Upgraded: a function create a learning rate decay operation in TensorFlow.
+
+13. Batch Normalization: a function create batch normalization layer.
+
+14. Batch Normalization Upgraded: a function create batch normalization layer.
