@@ -23,45 +23,34 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
     Returns:
         None (updates weights and biases in place)
     """
-    # Get number of data points
     m = Y.shape[1]
 
-    # Get the output of the last layer (softmax output)
-    A_prev = cache[f'A{L}']
+    # Output activation
+    A = cache[f'A{L}']
 
-    # Calculate derivative of loss with respect to output (softmax)
-    dZ = A_prev - Y
+    # Gradient at output layer
+    dZ = A - Y
 
-    # Backpropagate through the network
     for layer in range(L, 0, -1):
-        # Get current layer's weights and bias
+        # Current layer weights
         W = weights[f'W{layer}']
-        b = weights[f'b{layer}']
 
-        # Get current layer's activation from cache
-        A_prev_layer = cache[f'A{layer - 1}'] if layer > 1 else cache['A0']
+        # Activation from previous layer
+        A_prev = cache[f'A{layer - 1}']
 
-        # Calculate gradients
-        dW = (1 / m) * np.matmul(dZ, A_prev_layer.T)
+        # Gradients
+        dW = (1 / m) * np.matmul(dZ, A_prev.T)
         db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
 
-        # Update weights and biases in place
-        weights[f'W{layer}'] = W - alpha * dW
-        weights[f'b{layer}'] = b - alpha * db
-
-        # If not the first layer, compute dZ for the previous layer
+        # Calculate dZ for previous layer BEFORE updating W
         if layer > 1:
-            # Get previous layer's weights
-            W_prev = weights[f'W{layer - 1}']
-
-            # Get previous layer's activation and dropout mask
-            A_prev2 = cache[f'A{layer - 1}']
+            A_prev_layer = cache[f'A{layer - 1}']
             D_prev = cache[f'D{layer - 1}']
 
-            # Calculate dZ for previous layer using tanh derivative
-            # First compute dZ with respect to the pre-activation
-            dZ = np.matmul(W_prev.T, dZ) * (1 - A_prev2 ** 2)
+            dZ = np.matmul(W.T, dZ)
+            dZ *= (1 - A_prev_layer ** 2)
+            dZ *= D_prev / keep_prob
 
-            # Apply dropout mask to dZ for the previous layer
-            # Scale by keep_prob to maintain expected gradient magnitude
-            dZ = dZ * D_prev / keep_prob
+        # Update parameters
+        weights[f'W{layer}'] = W - alpha * dW
+        weights[f'b{layer}'] -= alpha * db
