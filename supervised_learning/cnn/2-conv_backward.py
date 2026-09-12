@@ -34,19 +34,14 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     m, h_new, w_new, c_new = dZ.shape
 
     if padding == "same":
-        # Calculate total padding needed
-        pad_h = max((h_new - 1) * sh + kh - h_prev, 0)
-        pad_w = max((w_new - 1) * sw + kw - w_prev, 0)
-        ph = pad_h // 2
-        pw = pad_w // 2
-        ph_end = pad_h - ph
-        pw_end = pad_w - pw
+        ph = int(np.ceil(((h_prev - 1) * sh + kh - h_prev) / 2))
+        pw = int(np.ceil(((w_prev - 1) * sw + kw - w_prev) / 2))
     else:
-        ph = pw = ph_end = pw_end = 0
+        ph = pw = 0
 
     A_prev_padded = np.pad(
         A_prev,
-        ((0, 0), (ph, ph_end), (pw, pw_end), (0, 0)),
+        ((0, 0), (ph, ph), (pw, pw), (0, 0)),
         mode="constant"
     )
 
